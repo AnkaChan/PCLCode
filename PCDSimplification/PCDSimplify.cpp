@@ -66,12 +66,23 @@ FileParts filepartsWin(std::string filename)
 
 int main(int argc, char **argv)
 {
-	if (argc < 4)
+	if (argc < 3)
 	{
-		cout << "Please input two directory and a leaf size parameter." << endl;
+		cout << "Please give a input dir, a output dir and a leaf size parameter(default 5)." << endl;
 		return -1;
 	}
-	float leafSize = atof(argv[3]);
+
+	boost::filesystem::path dir(argv[2]);
+	if (!(boost::filesystem::exists(dir))) {
+		std::cout << "Doesn't Exists: " << argv[2] << std::endl;
+
+		if (boost::filesystem::create_directory(dir))
+			std::cout << "Successfully Created: " << argv[2] << std::endl;
+	}
+	float leafSize = 5;
+	if (argc == 4) {
+		leafSize = atof(argv[3]);
+	}
 	cout << "Leaf size is: " << leafSize << endl;
 	cout << "Input path: " << argv[1] << "\n" << "Output path: " << argv[2] << endl;
 	vector<string> files;
@@ -94,7 +105,7 @@ int main(int argc, char **argv)
 
 		vox_grid.setInputCloud(pCloud);
 		vox_grid.setLeafSize(voxel_grid_size, voxel_grid_size, voxel_grid_size);
-		//vox_grid.filter (*cloud); // Please see this http://www.pcl-developers.org/Possible-problem-in-new-VoxelGrid-implementation-from-PCL-1-5-0-td5490361.html
+
 		vox_grid.filter(*tempCloud);
 		FileParts fp = filepartsWin(filePath);
 		std::cout << "Saving simplified file to: " << outPath + fp.name + fp.ext << std::endl;

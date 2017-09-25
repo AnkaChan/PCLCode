@@ -25,6 +25,23 @@ public:
 	bool hasColor = false;
 	void _from_string();
 };
+
+void CVertexColor::_from_string() {
+	static std::stringstream _sstream;
+	_sstream.str("");
+	_sstream.clear();
+	CParser parser(this->string());
+	for (auto tokenIter = parser.tokens().begin(); tokenIter != parser.tokens().end(); ++tokenIter) {
+		CToken *pToken = *tokenIter;
+		if (pToken->m_key == "rgb") {
+			std::string values = pToken->m_value;
+			values.erase(values.begin());
+			values.erase(values.end() - 1);
+			_sstream << values;
+			_sstream >> colorsRGB[0] >> colorsRGB[1] >> colorsRGB[2];
+		}
+	}
+}
 typedef CBaseMesh<CVertexColor, CEdge, CFace, CHalfEdge> CMesh;
 typedef MeshToolBox<CVertexColor, CEdge, CFace, CHalfEdge> CToolBox;
 

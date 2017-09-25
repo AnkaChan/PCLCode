@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
-project(pcd_read)
+project(PCDSimplify)
 
 find_package(PCL 1.2 REQUIRED)
 
@@ -8,5 +8,5 @@ include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
 
-add_executable (pcd_read pcd_read.cpp)
-target_link_libraries (pcd_read ${PCL_LIBRARIES})
+add_executable (PCDSimplify PCDSimplify.cpp)
+target_link_libraries (PCDSimplify ${PCL_LIBRARIES})
