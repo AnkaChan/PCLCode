@@ -64,8 +64,8 @@ main(int argc, char** argv)
 		string outputName = outPath + fp.name + ".pcd";
 		
 
-		pcl::io::savePCDFileASCII(outputName, cloud);
-		//pcl::io::savePCDFileBinary(outputName, cloud);
+		//pcl::io::savePCDFileASCII(outputName, cloud);
+		pcl::io::savePCDFileBinary(outputName, cloud);
 		std::cerr << "Saved " << cloud.points.size() << " data points to: " << outputName << std::endl;
 	};
 

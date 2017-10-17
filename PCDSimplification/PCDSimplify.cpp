@@ -88,7 +88,8 @@ int main(int argc, char **argv)
 	vector<string> files;
 	getJustCurrentFile(argv[1], files);
 	string outPath(argv[2]);
-	outPath += "\\";
+	if (outPath.back() != '\\' && outPath.back() != '/')
+		outPath += "\\";
 
 	pcl::VoxelGrid<pcl::PointXYZRGBNormal> vox_grid;
 	pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr tempCloud(new pcl::PointCloud<pcl::PointXYZRGBNormal>);

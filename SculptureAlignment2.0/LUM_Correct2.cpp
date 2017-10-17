@@ -299,6 +299,14 @@ main(int argc, char** argv)
 		return 0;
 	}
 
+	boost::filesystem::path dir(argv[2]);
+	if (!(boost::filesystem::exists(dir))) {
+		std::cout << "Doesn't Exists: " << argv[2] << std::endl;
+
+		if (boost::filesystem::create_directory(dir))
+			std::cout << "Successfully Created: " << argv[2] << std::endl;
+	}
+
 	cout << "Input path: " << argv[1] << "\n" << "Output path: " << argv[2] << endl;
 	vector<string> files, originalFiles;
 	getJustCurrentFile(argv[1], files);
@@ -471,6 +479,5 @@ main(int argc, char** argv)
 		//std::cout << "saving result to " << result_filename << std::endl;
 	}
 	
-	getchar();
 	return (0);
 }
