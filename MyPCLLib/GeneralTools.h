@@ -1,6 +1,7 @@
 #include <pcl/common/common.h>
 #include <pcl/common/transforms.h>
 #include <pcl/common/centroid.h>
+#include <string>
 
 template <typename PointT> 
 void moveOnVector3Vec(pcl::PointCloud<PointT> & cloud, Eigen::Vector3f vec) {
@@ -28,10 +29,10 @@ float getAverageL2Norm(pcl::PointCloud<PointT> & cloud) {
 
 template <typename PointT>
 void scalePointCloudUsingGivenScale(pcl::PointCloud<PointT> & cloud, float scale) {
-	for (auto p : cloud.points) {
-		p.x /= scale; 
-		p.y /= scale; 
-		p.z /= scale;
+	for (PointT& p : cloud.points) {
+		p.x *= scale; 
+		p.y *= scale; 
+		p.z *= scale;
 	}
 }
 
@@ -41,7 +42,7 @@ float normalizePointCloudUsingAverageL2Norm(pcl::PointCloud<PointT> & cloud){
 	pcl::compute3DCentroid(cloud, centroid);
 	moveOnVector(cloud, -centroid);
 	float scale = getAverageL2Norm(cloud);
-	scalePointCloudUsingGivenScale(cloud, scale);
+	scalePointCloudUsingGivenScale(cloud, 1/scale);
 	return scale;
 }
 
@@ -50,4 +51,24 @@ float normalizePointCloudUsingGivenScale(pcl::PointCloud<PointT> & cloud, float 
 	Eigen::Vector4f centroid = pcl::compute3DCentroid(cloud);
 	moveOnVector(cloud, -centroid);
 	scalePointCloudUsingGivenScale(cloud, scale);
+}
+
+template <typename PointT>
+bool loadPointCloud(std::string path, pcl::PointCloud<PointT> & cloud) {
+	FileParts fp = fileparts(argv[1]);
+
+	if (fp.ext == std::string(".ply") || fp.ext == std::string(".PLY")) {
+		pcl::PLYReader Reader;
+		Reader.read(path, cloud);
+		return true;
+	}
+	else if (fp.ext == std::string(".pcd") || fp.ext == std::string(".PCD")) {
+		pcl::PCDReader Reader;
+		Reader.read(path, cloud);
+		return true;
+	}
+	else {
+		std::cout << "Unkown file format:\n: " << fp.ext << std::endl;
+		return false;
+	}
 }

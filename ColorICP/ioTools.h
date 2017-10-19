@@ -27,7 +27,6 @@ void getJustCurrentFile(string path, vector<string>& files) {
 		_findclose(hFile);
 	}
 }
-
 struct FileParts
 {
 	std::string path;
@@ -37,11 +36,7 @@ struct FileParts
 
 FileParts fileparts(std::string filename)
 {
-
 	int idx0 = filename.rfind("/");
-	if (idx0 == std::string::npos) {
-		idx0 = filename.rfind("\\");
-	}
 	int idx1 = filename.rfind(".");
 
 	FileParts fp;
