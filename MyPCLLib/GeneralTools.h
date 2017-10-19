@@ -55,7 +55,7 @@ float normalizePointCloudUsingGivenScale(pcl::PointCloud<PointT> & cloud, float 
 
 template <typename PointT>
 bool loadPointCloud(std::string path, pcl::PointCloud<PointT> & cloud) {
-	FileParts fp = fileparts(argv[1]);
+	FileParts fp = fileparts(path);
 
 	if (fp.ext == std::string(".ply") || fp.ext == std::string(".PLY")) {
 		pcl::PLYReader Reader;
