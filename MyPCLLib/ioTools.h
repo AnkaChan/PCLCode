@@ -4,10 +4,41 @@
 #include "io.h"
 #include <string>
 #include <vector>
+#include <algorithm>
+#include <boost\filesystem.hpp>
 using std::string;
 using std::vector;
 using std::cout;
 using std::endl;
+
+namespace fs = boost::filesystem;
+
+int get_filenames(const std::string& dir, std::vector<std::string>& filenames, bool gotoChildrenDirs = false)
+{
+	fs::path path(dir);
+	if (!fs::exists(path))
+	{
+		return -1;
+	}
+
+	fs::directory_iterator end_iter;
+	for (fs::directory_iterator iter(path); iter != end_iter; ++iter)
+	{
+		if (fs::is_regular_file(iter->status()))
+		{
+			filenames.push_back(iter->path().string());
+		}
+
+		if (gotoChildrenDirs && fs::is_directory(iter->status()))
+		{
+			get_filenames(iter->path().string(), filenames);
+		}
+	}
+
+	return filenames.size();
+}
+
+
 
 void getJustCurrentFile(string path, vector<string>& files) {
 	//нд╪Ч╬Д╠З
@@ -28,6 +59,24 @@ void getJustCurrentFile(string path, vector<string>& files) {
 	}
 }
 
+std::string make2StandardPath(std::string oPath) {
+	std::replace(oPath.begin(), oPath.end(), '\\', '/'); // replace all '\' to '/', fuck Microsophtte
+	if (oPath.back() != '/') {
+		oPath.push_back('/');
+	}
+	return oPath;
+}
+
+void createDir(std::string newDir) {
+	boost::filesystem::path dir(newDir.c_str());
+	if (!(boost::filesystem::exists(dir))) {
+		std::cout << "Doesn't Exists: " << newDir << std::endl;
+
+		if (boost::filesystem::create_directory(dir))
+			std::cout << "Successfully Created: " << newDir << std::endl;
+	}
+}
+
 struct FileParts
 {
 	std::string path;
@@ -37,11 +86,10 @@ struct FileParts
 
 FileParts fileparts(std::string filename)
 {
+	std::replace(filename.begin(), filename.end(), '\\', '/'); // replace all '\' to '/', fuck Microsophtte
 
 	int idx0 = filename.rfind("/");
-	if (idx0 == std::string::npos) {
-		idx0 = filename.rfind("\\");
-	}
+	
 	int idx1 = filename.rfind(".");
 
 	FileParts fp;

@@ -3,6 +3,7 @@
 #include <pcl/point_types.h>
 #include "./MeshLibIO.h"
 #include "MeshLib/core/Parser/parser.h"
+#include "../MyPCLLib/GeneralTools.h"
 
 #define INDIR "D:/Code/PointCloud/Sculpture"
 #define OUTDIR "./data"
