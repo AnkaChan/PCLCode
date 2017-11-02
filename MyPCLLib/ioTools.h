@@ -59,8 +59,13 @@ void getJustCurrentFile(string path, vector<string>& files) {
 	}
 }
 
+std::string standardSlash(std::string oPath) {
+	std::replace(oPath.begin(), oPath.end(), '\\', '/');
+	return oPath;
+}
+
 std::string make2StandardPath(std::string oPath) {
-	std::replace(oPath.begin(), oPath.end(), '\\', '/'); // replace all '\' to '/', fuck Microsophtte
+	oPath = standardSlash(oPath); // replace all '\' to '/', fuck Microsophtte
 	if (oPath.back() != '/') {
 		oPath.push_back('/');
 	}
