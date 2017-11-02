@@ -13,8 +13,8 @@
 #define DEBUG_ACCURATE_ALIGNMENT_DIR "C:/Code/PointCLoud/Data/AccurateRabbit/outputs/Debug/AccurateAlignment/"
 #define VERY_BIG_FLOAT 1.0e20;
 //#define DRAW_CORR true
-#define SAVE_LUM_VERTICES 1
-#define SAVE_ACCURATE_ALIGNMENT 1
+//#define SAVE_LUM_VERTICES 1
+//#define SAVE_ACCURATE_ALIGNMENT 1
  
 class CloudAligner {
 public:
@@ -61,7 +61,7 @@ public:
 	int gicp6d_maxIteration = 5000;
 	float gicp6d_L_weight = 0.01;
 	//lum parameters
-	int lum_maxIteration = 10000;
+	int lum_maxIteration = 500;
 	float lum_convergeThreshold = 0.01;
 
 private:
