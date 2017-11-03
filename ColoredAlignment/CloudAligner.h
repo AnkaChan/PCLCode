@@ -59,7 +59,7 @@ public:
 	//gicp6d parameters
 	float gicp6d_maxCorrDistance = 0.5;
 	int gicp6d_maxIteration = 5000;
-	float gicp6d_L_weight = 0.01;
+	float gicp6d_color_weight = 0.01;
 	//lum parameters
 	int lum_maxIteration = 500;
 	float lum_convergeThreshold = 0.01;
@@ -254,7 +254,7 @@ void CloudAligner::makeRoughTrans(FeatureCloud::Ptr pTCloud, FeatureCloud::Ptr p
 }
 
 void CloudAligner::makeAccurateTrans(PCType::Ptr pTCloud, PCType::Ptr pSCloud, PCType::Ptr pOutCloud, Eigen::Affine3f &trans) {
-	pcl::GeneralizedIterativeClosestPoint6D gicp6d(gicp6d_L_weight);
+	pcl::GeneralizedIterativeClosestPoint6D gicp6d(gicp6d_color_weight);
 	pcl::PointCloud<pcl::PointXYZRGBA>::Ptr pSCloudRGB(new pcl::PointCloud<pcl::PointXYZRGBA>());
 	pcl::PointCloud<pcl::PointXYZRGBA>::Ptr pTCloudRGB(new pcl::PointCloud<pcl::PointXYZRGBA>());
 	pcl::PointCloud<pcl::PointXYZRGBA>::Ptr pFinalCloud(new pcl::PointCloud<pcl::PointXYZRGBA>());

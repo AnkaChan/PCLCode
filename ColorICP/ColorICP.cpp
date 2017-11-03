@@ -31,14 +31,14 @@ main(int argc, char** argv)
 	loadPointCloud(argv[1], *pSCloud);
 	std::cout << "load: " << argv[2] << std::endl;
 	loadPointCloud(argv[2], *pTCloud);
-	/*float scale = normalizePointCloudUsingAverageL2Norm(*pSCloud);
-	normalizePointCloudUsingGivenScale(*pTCloud, scale);*/
+	float scale = normalizePointCloudUsingAverageL2Norm(*pSCloud);
+	normalizePointCloudUsingGivenScale(*pTCloud, scale);
 
-	pcl::GeneralizedIterativeClosestPoint6D gicp6d(0.05);
+	pcl::GeneralizedIterativeClosestPoint6D gicp6d(0.10);
 	gicp6d.setInputSource(pSCloud);
 	gicp6d.setInputTarget(pTCloud);
 	gicp6d.setMaxCorrespondenceDistance(0.3);
-	gicp6d.setMaximumIterations(50);
+	gicp6d.setMaximumIterations(500);
 	gicp6d.align(*pFinalCloud);
 
 
@@ -65,8 +65,8 @@ main(int argc, char** argv)
 	outputDir = make2StandardPath(outputDir);
 	createDir(outputDir);
 
-	std::string outpath1 = outputDir + fp1.name + ".pcd";
-	std::string outpath2 = outputDir + fp2.name + ".pcd";
+	std::string outpath1 = outputDir + fp1.name + "_to_" + fp2.name + "_" + fp1.name + ".pcd";
+	std::string outpath2 = outputDir + fp1.name + "_to_" + fp2.name + "_" + fp2.name + ".pcd";
 
 	pcl::io::savePCDFileBinary(outpath1, *pFinalCloud);
 	std::cout << "Saved data points to: " << outpath1 << std::endl;
