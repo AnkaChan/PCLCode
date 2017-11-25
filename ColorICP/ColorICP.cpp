@@ -37,7 +37,7 @@ main(int argc, char** argv)
 	pcl::GeneralizedIterativeClosestPoint6D gicp6d(0.10);
 	gicp6d.setInputSource(pSCloud);
 	gicp6d.setInputTarget(pTCloud);
-	gicp6d.setMaxCorrespondenceDistance(0.3);
+	gicp6d.setMaxCorrespondenceDistance(0.2);
 	gicp6d.setMaximumIterations(500);
 	gicp6d.align(*pFinalCloud);
 
