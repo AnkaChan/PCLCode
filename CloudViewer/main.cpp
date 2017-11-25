@@ -62,6 +62,10 @@ main (int argc, char** argv)
     eifilter.setIndices(pIndicesToRemove);
     eifilter.filter(*pCloud_filtered);
 
+	for (pcl::PointXYZRGBA & p : pCloud_filtered->points) {
+		p.a = 255;
+	}
+
     /*Eigen::Vector4f centroid;
     Eigen::Affine3f trans = Eigen::Affine3f::Identity();
     pcl::compute3DCentroid(*pCloud, centroid);

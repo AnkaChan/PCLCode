@@ -27,6 +27,7 @@ main(int argc, char** argv)
 		return 1;
 	}
 
+
 	std::cout << "load: " << argv[1] << std::endl;
 	loadPointCloud(argv[1], *pSCloud);
 	std::cout << "load: " << argv[2] << std::endl;
@@ -34,7 +35,15 @@ main(int argc, char** argv)
 	float scale = normalizePointCloudUsingAverageL2Norm(*pSCloud);
 	normalizePointCloudUsingGivenScale(*pTCloud, scale);
 
-	pcl::GeneralizedIterativeClosestPoint6D gicp6d(0.10);
+	for (pcl::PointXYZRGBA & p : pSCloud->points) {
+		p.a = 255;
+	}
+	for (pcl::PointXYZRGBA & p : pTCloud->points) {
+		p.a = 255;
+	}
+
+	pcl::GeneralizedIterativeClosestPoint6D gicp6d;
+	//pcl::GeneralizedIterativeClosestPoint6D gicp6d(0.10);
 	gicp6d.setInputSource(pSCloud);
 	gicp6d.setInputTarget(pTCloud);
 	gicp6d.setMaxCorrespondenceDistance(0.2);
@@ -51,6 +60,8 @@ main(int argc, char** argv)
 	view->addCoordinateSystem(1.0); //建立空间直角坐标系
 	view->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 5, "aligned_cloud");
 	view->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 5, "target_cloud");
+
+
 
 	while (!view->wasStopped())
 	{

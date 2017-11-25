@@ -62,8 +62,8 @@ int main(int argc, char ** argv){
 	ne.compute(*pNCloud);
 	pcl::copyPointCloud(*pNCloud, *pCloud);
 	// cloud_normals->points.size () should have the same size as the input cloud->points.size ()*
-	string outPathPCD = fp.path + fp.name + "Normal_" + argv[2] + ".pcd";
-	string outPathPLY = fp.path + fp.name + "Normal_" + argv[2] + ".ply";
+	string outPathPCD = fp.path + fp.name + "Normal" + (argc >= 3 ? "_" : "") + (argc >= 3 ? argv[2] : "") + ".pcd";
+	string outPathPLY = fp.path + fp.name + "Normal" + (argc >= 3 ? "_" : "") + (argc >= 3 ? argv[2] : "") + ".ply";
 
 	pcl::io::savePCDFileBinary(outPathPCD, *pCloud);
 	pcl::io::savePLYFileASCII(outPathPLY, *pCloud);
