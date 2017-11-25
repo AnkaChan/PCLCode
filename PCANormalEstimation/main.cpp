@@ -11,6 +11,7 @@
 
 #include <pcl/point_types.h>
 #include <pcl/features/normal_3d.h>
+#include <stdio.h>
 
 typedef pcl::PointXYZRGBNormal PType;
 typedef pcl::PointCloud<PType> PCloudType;
@@ -23,7 +24,7 @@ typedef pcl::PointCloud<BasicPType> BasicPCloudType;
 int main(int argc, char ** argv){
 
 	if (argc < 2) {
-		cout << "Please give a input path." << endl;
+		cout << "Please give a input path and a radius(ratio of average L2 norm, default 0.2)." << endl;
 		return 1;
 	}
 
@@ -32,6 +33,11 @@ int main(int argc, char ** argv){
 	BasicPCloudType::Ptr pBCloud(new BasicPCloudType);
 	NCloudType::Ptr pNCloud(new NCloudType);
 
+	double radius = 0.2;
+	int a;
+	if (argc >= 3) {
+		sscanf(argv[2], "%lf", &radius);
+	}
 
 	cout << "Load: " << argv[1] << endl;
 	loadPointCloud(argv[1], *pCloud);
@@ -50,14 +56,14 @@ int main(int argc, char ** argv){
 	ne.setSearchMethod(tree);
 
 	// Use all neighbors in a sphere of radius 3cm
-	ne.setRadiusSearch(0.2);
+	ne.setRadiusSearch(radius);
 
 	// Compute the features
 	ne.compute(*pNCloud);
 	pcl::copyPointCloud(*pNCloud, *pCloud);
 	// cloud_normals->points.size () should have the same size as the input cloud->points.size ()*
-	string outPathPCD = fp.path + fp.name + "Normal.pcd";
-	string outPathPLY = fp.path + fp.name + "Normal.ply";
+	string outPathPCD = fp.path + fp.name + "Normal_" + argv[2] + ".pcd";
+	string outPathPLY = fp.path + fp.name + "Normal_" + argv[2] + ".ply";
 
 	pcl::io::savePCDFileBinary(outPathPCD, *pCloud);
 	pcl::io::savePLYFileASCII(outPathPLY, *pCloud);
