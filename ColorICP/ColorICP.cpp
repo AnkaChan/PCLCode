@@ -42,12 +42,12 @@ main(int argc, char** argv)
 		p.a = 255;
 	}
 
-	pcl::GeneralizedIterativeClosestPoint6D gicp6d;
-	//pcl::GeneralizedIterativeClosestPoint6D gicp6d(0.10);
+	//pcl::GeneralizedIterativeClosestPoint6D gicp6d;
+	pcl::GeneralizedIterativeClosestPoint6D gicp6d(0.40);
 	gicp6d.setInputSource(pSCloud);
 	gicp6d.setInputTarget(pTCloud);
 	gicp6d.setMaxCorrespondenceDistance(0.2);
-	gicp6d.setMaximumIterations(500);
+	gicp6d.setMaximumIterations(5000);
 	gicp6d.align(*pFinalCloud);
 
 
